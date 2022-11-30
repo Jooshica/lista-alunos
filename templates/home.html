@@ -7,16 +7,39 @@
 
         <br/>
 
-        <form class="containter" action="create" method="POST">
-            <input name='name' class='form-control'></input>
-            <button class='btn btn-primary'>Salvar</button>
+        <h2>
+            Realize aqui um novo cadastro
+        </h2>
+        <form method="post" action="/submit">
+            <p>Nome: <input type="text" name="nome"></p>
+            <p>Ano: <input type="number" name="ano"></p>
+            <p>Situação: <input type="text" name="situation"></p>
+            <p><input type="submit"></p>
         </form>
 
+        <!-- <form class="container" action="create" method="POST">
+            <input name='name', class='form-control'></input>
+            <input name='ano', class='form-control'></input>
+            <input name='situation', class='form-control'></input>
+            <button class='btn btn-primary'>Salvar</button>
+        </form> -->
+
         <table class="table table-hover">
+            <tr>
+                <th>Nome</th>
+                <th>Ano</th>
+                <th>Situação</th>
+                <th>Apagar</th>
+            </tr>
             {% for task in tasks:%}
             <tr>
-                <td>{{task['name']}}</td>
-                <td>{{task['finished']}}</td>
+                <td>{{task.nome}}</td>
+                <td>{{task.ano}}</td>
+                <td>{{task.situation}}</td>
+                <td><form action="{{url_for('apagar')}}" method="POST">
+                    <button type="submit" name="id"></button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </table>
