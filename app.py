@@ -1,11 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import csv
 
 app = Flask(__name__)
-
-#tasks = [
-    #{'name': 'Nome', 'ano': '8','situation':'Situação'}
-#]
 
 @app.route("/")
 def index():
@@ -24,17 +20,13 @@ def index():
                 first_line = False
     return render_template("home.html",tasks=tasks)
 
-#@app.route('/')
-#def home():
-    #templates/home.html
-    #return render_template('home.html', tasks=tasks)
-
-@app.route("/submit", methods=["GET", "POST"])
+@app.route("/", methods=['GET', 'POST'])
 def submit():
-    if request.method == "GET":
-        return redirect(url_for('home'))
+    tasks = []
+    if request.method == 'GET':
+        return redirect(url_for('index'))
 
-    elif request.method == "POST":
+    elif request.method == 'POST':
         userdata = dict(request.form)
         nome = userdata["nome"]
         ano = userdata["ano"]
@@ -42,32 +34,26 @@ def submit():
         with open('alunos.csv', mode='a') as csv_file:
             data = csv.writer(csv_file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL)
             data.writerow([nome, ano, situation])
-        return "Valeu"
+        return redirect(url_for('index'))
 
-#@app.route('/create', methods={'POST'})
-#def create():
-    #name = request.form['name']
-    #ano = request.form['ano']
-    #situation = request.form['situation']
-    #task = {'name': name, 'ano': ano, 'situation': situation}
-    #tasks.append(task)
-    #return render_template('home.html', tasks=tasks)
+@app.route("/", methods=['POST', 'GET'])
+def delete():
+    tasks = []
+    if request.method == 'GET':
+        return redirect(url_for('index'))
 
-@app.route('/delete',methods=["POST"])
-def delete_book():
-    id = request.form.get('id')
-    if id != None:
-        with open('alunos.csv', 'rt') as f:
-            alunes = list(csv.reader(f))
-            for alune in alunes:
-                if alune[0] == id:
-                    alunes.remove(alune)
-        with open('alunos.csv', 'wt',newline='') as f:
-            write = csv.writer(f)
-            write.writerows(alune)
-        return redirect(url_for('adicionados'))
-    else:
-        print('id não pode ser nulo')
-        return redirect(url_for('adicionados'))
+    elif request.method == 'POST':
+        dados = request.form.get("data")
+        with open('alunos.csv', 'rt') as readFile:
+            reader = csv.reader(readFile)
+            for row in reader:
+                tasks.append(row)
+                for field in row:
+                    if field == dados:
+                        tasks.remove(row)
+        with open('alunos.csv', 'wt') as writeFile:
+            writer = csv.writer(writeFile)
+            writer.writerows(tasks)
+        return redirect(url_for('index'))
 
 app.run(debug=True)
