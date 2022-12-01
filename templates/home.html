@@ -10,7 +10,7 @@
         <h2>
             Realize aqui um novo cadastro
         </h2>
-        <form method="post" action="{{url_for('index')}}">
+        <form method="post" action="/submit">
             <p>Nome: <input type="text" name="nome"></p>
             <p>Ano: <input type="number" name="ano"></p>
             <p>Situação: <input type="text" name="situation"></p>
@@ -20,7 +20,7 @@
         <h2>
             Apague dados:
         </h2>
-        <form method="post" action="{{url_for('index')}}">
+        <form method="post" action="/delete">
             <p>Escreva o nome a ser apagado: <input type="text" name="data"></p>
             <p><input type="submit" value="Apagar"></p>
         </form>
@@ -36,7 +36,6 @@
                 <td>{{task.nome}}</td>
                 <td>{{task.ano}}</td>
                 <td>{{task.situation}}</td>
-
             </tr>
             {% endfor %}
         </table>
