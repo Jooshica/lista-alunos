@@ -3,8 +3,6 @@ import csv
 
 app = Flask(__name__)
 
-
-
 @app.route("/")
 def index():
     tasks = []
@@ -24,7 +22,6 @@ def index():
 
 @app.route("/submit", methods=['GET', 'POST'])
 def submit():
-    tasks = []
     if request.method == 'GET':
         return redirect(url_for('index'))
 
@@ -57,5 +54,22 @@ def delete():
             writer = csv.writer(writeFile)
             writer.writerows(tasks)
         return redirect(url_for('index'))
+
+@app.route('/busca', methods=['POST'])
+def busca():
+    tasks = []
+    with open('alunos.csv', 'rt') as readFile:
+        reader = csv.reader(readFile)
+        for row in reader:
+            tasks.append(row)
+
+    estudantes = []
+    busca = request.form['busca']
+    if busca > '':
+        for estudante in tasks:
+            if busca == estudante[0]:
+                estudantes.append(estudante)
+        
+        return render_template('busca.html', estudantes=estudantes)
 
 app.run(debug=True)
