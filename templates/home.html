@@ -10,6 +10,10 @@
             tr:nth-child(even){
                 background-color:palegoldenrod;
             }
+            p {
+                margin: 5px;
+                padding: 10px
+            }
         </style>
     </head>
     <body style="background-color:lightgoldenrodyellow;">
@@ -20,6 +24,7 @@
 
         <br>
 
+        <div>
         <p><b>Insira os dados para cadastro:</b></p>
         <form method="post" action="/submit">
             <p>Nome: <input type="text" name="nome">
@@ -27,21 +32,19 @@
             Situação: <input type="text" name="situation">
             <input type="submit"></p>
         </form>
-
+        </div>
         
         <p><b>Insira o nome que deseja buscar:</b></p>
         <form method="post" action="/busca">
-            <input type="text" name="busca">
-            <input type="submit" value="Buscar">
-        </form>
-        <br>
-        <p><b>Insira o nome a ser removido:</b></p>
-        <form method="post" action="/delete">
-            <input type="text" name="data">
-            <input type="submit" value="Apagar"></p>
+            <p><input type="text" name="busca">
+            <input type="submit" value="Buscar"></p>
         </form>
 
-        
+        <p><b>Insira o nome a ser removido:</b></p>
+        <form method="post" action="/delete">
+            <p><input type="text" name="data">
+            <input type="submit" value="Apagar"></p>
+        </form>
 
         <table class="table table-hover">
             <tr>
